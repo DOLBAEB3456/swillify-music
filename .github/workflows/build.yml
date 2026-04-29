@@ -52,6 +52,9 @@ jobs:
 
       - name: Build APK
         run: |
+          export LANG=en_US.UTF-8
+          # Автоматически принимаем все лицензии
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses 2>/dev/null || true
           buildozer -v android debug
 
       - name: Upload APK
