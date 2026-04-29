@@ -49,12 +49,15 @@ jobs:
           sed -i 's/^android.minapi = .*/android.minapi = 21/' buildozer.spec
           sed -i 's/^android.accept_sdk_license = .*/android.accept_sdk_license = True/' buildozer.spec
           sed -i 's/^log_level = .*/log_level = 2/' buildozer.spec
+          
+          # КЛЮЧЕВОЕ: фиксируем конкретную версию build-tools
+          sed -i 's/^android.build_tools_version = .*/android.build_tools_version = 30.0.3/' buildozer.spec
 
       - name: Build APK
         run: |
           export LANG=en_US.UTF-8
-          # Автоматически принимаем все лицензии
-          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses 2>/dev/null || true
+          # Принимаем все лицензии автоматически
+          yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
           buildozer -v android debug
 
       - name: Upload APK
